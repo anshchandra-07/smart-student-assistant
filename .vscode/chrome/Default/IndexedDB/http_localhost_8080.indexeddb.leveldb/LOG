@@ -1,0 +1,6 @@
+2026/04/08-11:52:32.361 10d8 Creating DB C:\Users\Ansh\Downloads\smart-student-assistant\.vscode\chrome\Default\IndexedDB\http_localhost_8080.indexeddb.leveldb since it was missing.
+2026/04/08-11:52:32.367 10d8 Reusing MANIFEST C:\Users\Ansh\Downloads\smart-student-assistant\.vscode\chrome\Default\IndexedDB\http_localhost_8080.indexeddb.leveldb/MANIFEST-000001
+2026/04/08-11:52:45.478 4738 Level-0 table #5: started
+2026/04/08-11:52:45.500 4738 Level-0 table #5: 1440 bytes OK
+2026/04/08-11:52:45.503 4738 Delete type=0 #3
+2026/04/08-11:52:45.504 d88 Manual compaction at level-0 from '\x00\x02\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x03\x00\x00\x00' @ 0 : 0; will stop at (end)

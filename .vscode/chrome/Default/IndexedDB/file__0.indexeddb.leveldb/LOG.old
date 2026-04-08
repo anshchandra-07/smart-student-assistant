@@ -1,0 +1,13 @@
+2026/04/08-11:51:22.684 d88 Reusing MANIFEST C:\Users\Ansh\Downloads\smart-student-assistant\.vscode\chrome\Default\IndexedDB\file__0.indexeddb.leveldb/MANIFEST-000001
+2026/04/08-11:51:22.686 d88 Recovering log #11
+2026/04/08-11:51:22.686 d88 Reusing old log C:\Users\Ansh\Downloads\smart-student-assistant\.vscode\chrome\Default\IndexedDB\file__0.indexeddb.leveldb/000011.log 
+2026/04/08-11:51:22.733 4738 Level-0 table #16: started
+2026/04/08-11:51:22.758 4738 Level-0 table #16: 3316 bytes OK
+2026/04/08-11:51:22.760 4738 Delete type=0 #11
+2026/04/08-11:51:22.761 10d8 Manual compaction at level-0 from '\x00\x06\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x07\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/04/08-11:52:41.935 d88 Compacting 1@1 + 1@2 files
+2026/04/08-11:52:41.952 d88 Generated table #17@1: 35 keys, 2633 bytes
+2026/04/08-11:52:41.952 d88 Compacted 1@1 + 1@2 files => 2633 bytes
+2026/04/08-11:52:41.953 d88 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/04/08-11:52:41.954 d88 Delete type=2 #13
+2026/04/08-11:52:41.954 d88 Delete type=2 #16

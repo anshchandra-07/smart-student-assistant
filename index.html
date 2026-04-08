@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduMate AI</title>
+    <!-- Material Typography & Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+    
+    <!-- Free Map API: Leaflet (OpenStreetMap) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+    <!-- Firebase SDK (Compat version for browser-side integration) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+    <!-- Markdown Parser for AI Chat -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login/Signup Overlay -->
+    <div id="authOverlay" class="auth-overlay active">
+        <div class="auth-card glass-panel">
+            <div class="auth-header">
+                <h2>EduMate<span class="dot">AI</span></h2>
+                <p id="authSubtitle">Join your personalized student assistant</p>
+            </div>
+            
+            <div class="auth-form" id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email Address" class="glass-input">
+                <input type="password" id="loginPassword" placeholder="Password" class="glass-input">
+                <button id="loginBtn" class="btn-primary w-full">Sign In</button>
+                <p class="auth-toggle">New here? <span id="toSignup">Create an account</span></p>
+            </div>
+
+            <div class="auth-form hidden" id="signupForm">
+                <input type="email" id="signupEmail" placeholder="Email Address" class="glass-input">
+                <input type="password" id="signupPassword" placeholder="Minimum 6 characters" class="glass-input">
+                <button id="signupBtn" class="btn-primary w-full">Create Account</button>
+                <p class="auth-toggle">Already have an account? <span id="toLogin">Sign In</span></p>
+            </div>
+            
+            <div id="authError" class="auth-error hidden"></div>
+        </div>
+    </div>
+
+    <div class="app-container blur-screen" id="appMain">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <h2>EduMate<span class="dot">AI</span></h2>
+                <p>Smart Student Assistant</p>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item active" data-target="ai-assistant-view">
+                    <span class="material-symbols-outlined">forum</span>
+                    <span class="nav-label">Study Assistant</span>
+                </li>
+                <li class="nav-item" data-target="schedule-view">
+                    <span class="material-symbols-outlined">task</span>
+                    <span class="nav-label">Tasks & Schedule</span>
+                </li>
+                <li class="nav-item" data-target="spots-view">
+                    <span class="material-symbols-outlined">location_on</span>
+                    <span class="nav-label">Study Spots</span>
+                </li>
+                <li class="nav-item logout-btn" id="logoutBtn">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span class="nav-label">Logout</span>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <p class="status-msg"><span class="status-dot"></span> System Online</p>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- AI Study Assistant View -->
+            <section id="ai-assistant-view" class="view-panel active">
+                <header class="panel-header glass-panel">
+                    <div>
+                        <h1>AI Study Assistant</h1>
+                        <p>Powered by Google Gemini API</p>
+                    </div>
+                    <div class="api-key-container">
+                        <input type="password" id="geminiApiKey" placeholder="Paste Gemini API Key..." class="glass-input">
+                    </div>
+                </header>
+
+                <div class="chat-wrapper glass-panel">
+                    <div class="chat-history" id="chatHistory">
+                        <div class="message-bubble ai-bubble">
+                            <div class="bubble-content">
+                                <strong>Hello! 👋</strong>
+                                <p>I'm your AI tutor. I can suggest study plans, explain complex topics, or summarize your notes. What do you want to learn today?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-area">
+                        <input type="text" id="chatInput" placeholder="Ask a question or request a study schedule..." class="glass-input">
+                        <button id="sendMessageBtn" class="btn-primary">
+                            <span class="material-symbols-outlined">send</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Schedule & Tasks View -->
+            <section id="schedule-view" class="view-panel">
+                <header class="panel-header glass-panel">
+                    <div>
+                        <h1>Schedule & Tasks</h1>
+                        <p>Track tasks and generate Calendar reminders</p>
+                    </div>
+                </header>
+
+                <div class="task-grid">
+                    <div class="task-creator glass-panel">
+                        <h2>Create New Task</h2>
+                        <div class="task-form">
+                            <input type="text" id="taskTitle" placeholder="Task description (e.g., Read Ch 4)" class="glass-input">
+                            <input type="datetime-local" id="taskDeadline" class="glass-input">
+                            <button id="addTaskBtn" class="btn-primary w-full">Add to Dashboard</button>
+                        </div>
+                    </div>
+
+                    <div class="task-list-container glass-panel">
+                        <h2>Upcoming Deadlines</h2>
+                        <div id="taskList" class="task-list">
+                            <!-- Tasks populated by JS -->
+                            <div class="empty-state">No upcoming tasks! You are all caught up.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Study Spots Near Me View -->
+            <section id="spots-view" class="view-panel">
+                <header class="panel-header glass-panel">
+                    <div>
+                        <h1>Study Spots Locator</h1>
+                        <p>Find free libraries & cafes using OpenStreetMap</p>
+                    </div>
+                    <div class="filter-toggles">
+                        <button class="btn-filter active" data-type="library">Libraries</button>
+                        <button class="btn-filter" data-type="cafe">Cafes</button>
+                    </div>
+                </header>
+
+                <div class="map-wrapper glass-panel">
+                    <div id="mapContainer" class="map-container"></div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
